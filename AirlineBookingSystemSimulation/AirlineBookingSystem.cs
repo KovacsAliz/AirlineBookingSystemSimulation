@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AirlineBookingSystemSimulation
 {
@@ -16,35 +13,82 @@ namespace AirlineBookingSystemSimulation
 
         public void CreateAirport(string name)
         {
-            Airport airport = new Airport(name);
+            Airport airport1 = new Airport(name);
+            foreach (var airport in airports)
+            {
+                if (airport.Key == airport1.Name)
+                {
+                    throw new ArgumentException();
+                }
+            }
+            airports.Add(name, airport1);
         }
 
         public void CreateAirline(string name)
         {
-            Airline airline = new Airline(name);
-        }
-
-        public void CreateFlight(Airline airline, string originAirport, string destinationAirport, DateTime departureDate)
-        {
-            Flight flight = new Flight(airline, originAirport, destinationAirport, departureDate);
-        }
-
-        public void GetAvailableFlight(string originAirport, string destinationAirport, DateTime departureDate, int numOfPass)
-        {
-            foreach (var flight in flights.Values)
+            Airline airline1 = new Airline(name);
+            foreach (var airline in airlines)
             {
-                //if(flight.); //TODO
+                if (airline.Key == airline1.Name)
+                {
+                    throw new ArgumentException();
+                }
+            }
+            airlines.Add(name, airline1);
+        }
+
+        public void CreateFlight(string airline, string originAirport, string destinationAirport, DateTime departureDate, int numOfSeats, int numOfRows, string flightNum)
+        {
+            Flight flight1 = new Flight(originAirport, destinationAirport, airline, departureDate, numOfSeats, numOfRows, flightNum);
+            flights.Add(flightNum, flight1);
+        }
+
+        public void GetAvailableFlight(string originAirport, string destinationAirport, DateTime departureDate, int numOfPass, string section)
+        {
+            foreach (var flight in flights)
+            {
+                if (flight.Value.OriginAirport == originAirport && flight.Value.DestinationAirport == destinationAirport &&
+                    flight.Value.DepartureTime == departureDate)
+                {
+                    flight.Value.CheckAvailableSeat(section, numOfPass);
+                }
             }
         }
 
-        public bool BookSeat(string flightNumber, int numberOfPass)
+        public bool BookSeat(string flightNumber, int numberOfPass, string section)
         {
-            //TODO
+            foreach (var flight in flights)
+            {
+                if (flight.Value.FlightNumber == flightNumber && flight.Value.CheckAvailableSeat(section, numberOfPass) == true)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         public void PrintResult()
         {
-            return flight.ToString();
+            foreach (var flight in flights)
+            {
+                Console.WriteLine(flight.ToString()); 
+            }
+        }
+
+        public void PrintAirlines()
+        {
+            foreach (var airline in airlines)
+            {
+                Console.WriteLine(airline.Value.ToString()); 
+            }
+        }
+
+        public void PrintAirports()
+        {
+            foreach (var airport in airports)
+            {
+                Console.WriteLine(airport.Value.ToString()); 
+            }
         }
     }
 }

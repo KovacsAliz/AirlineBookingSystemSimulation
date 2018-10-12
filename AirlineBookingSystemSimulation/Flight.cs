@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AirlineBookingSystemSimulation
 {
@@ -15,23 +12,20 @@ namespace AirlineBookingSystemSimulation
         public DateTime DepartureTime { get; private set; }
         public int NumOfSeats { get; private set; }
         public int NumOfSeatRows { get; private set; }
-        public int NumOfBookedSeat { get; private set; }
-        public int NumOfFreeSea { get; private set; }
+        
         Random random = new Random();
 
         private readonly Dictionary<string, Section> sections = new Dictionary<string, Section>();
 
-        public Flight(string originAirport, string destinationAirport, string airline, DateTime departureTime, int numOfSeats, int numOfSeatRows)
+        public Flight(string originAirport, string destinationAirport, string airline, DateTime departureTime, int numOfSeats, int numOfSeatRows, string flightNumber)
         {
             OriginAirport = originAirport;
             DestinationAirport = destinationAirport;
             Airline = airline;
-            FlightNumber = OriginAirport.Substring(1, 3) + random.Next(100, 999).ToString();
+            FlightNumber = flightNumber; //OriginAirport.Substring(1, 3) + random.Next(100, 999).ToString();
             DepartureTime = departureTime;
             NumOfSeats = numOfSeats;
             NumOfSeatRows = numOfSeatRows;
-            NumOfBookedSeat = 0;
-            NumOfFreeSea = numOfSeats;
         }
 
         public void CheckOriginAndDestination()
@@ -44,13 +38,29 @@ namespace AirlineBookingSystemSimulation
 
         public void CreateSection(string typeOfSection, int numOfSeat, int numOfRow)
         {
-            Section section = new Section(typeOfSection, numOfSeat, numOfRow);
+            Section section = new Section(numOfRow, numOfSeat, typeOfSection);
             sections.Add(typeOfSection, section);
         }
 
-        public bool CheckAvailableSeat(Section section, int numOfPass)
+        public bool CheckAvailableSeat(string section, int numOfPass)
         {
-            //TODO
+            foreach (var sec in sections)
+            {
+                if (sec.Value.TypeOfSection == section)
+                {
+                    if (sec.Value.NumOfFreeSea >= numOfPass)
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+        public override string ToString()
+        {
+            return $"Flight number: {FlightNumber}, Origin Airport: {OriginAirport}, Destination Airport: {DestinationAirport}" +
+                   $" Airline: {Airline}, Departure date: {DepartureTime}";
         }
     }
 }
