@@ -10,6 +10,7 @@ namespace AirlineBookingSystemSimulation
     {
         static void Main(string[] args)
         {
+            AirlineBookingSystem airlineBookingSystem = new AirlineBookingSystem();
         }
     }
 }
