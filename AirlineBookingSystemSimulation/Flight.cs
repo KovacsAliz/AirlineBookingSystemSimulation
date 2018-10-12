@@ -6,10 +6,7 @@ using System.Threading.Tasks;
 
 namespace AirlineBookingSystemSimulation
 {
-    class Program
+    public class Flight
     {
-        static void Main(string[] args)
-        {
-        }
     }
 }
