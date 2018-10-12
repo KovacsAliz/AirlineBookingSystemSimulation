@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 
 namespace AirlineBookingSystemSimulation
 {
-    enum SectionType
+    public enum SectionType
     {
+        Business,
+        FirstClass,
+        Economy
     }
 }
