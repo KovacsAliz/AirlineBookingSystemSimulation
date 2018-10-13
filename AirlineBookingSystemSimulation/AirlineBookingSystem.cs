@@ -43,24 +43,52 @@ namespace AirlineBookingSystemSimulation
             flights.Add(flightNum, flight1);
         }
 
-        public void GetAvailableFlight(string originAirport, string destinationAirport, DateTime departureDate, int numOfPass, string section)
+        public void CreateFlightSection(string flightNum, string section, int seatRow, int seatColumn)
+        {
+            foreach (var flight in flights)
+            {
+                if (flight.Value.FlightNumber == flightNum)
+                {
+                    if (section == "business")
+                    {
+                        flight.Value.CreateSection(SectionType.Business, seatRow, seatColumn);
+                    }
+                    else if (section == "first class")
+                    {
+                        flight.Value.CreateSection(SectionType.FirstClass, seatRow, seatColumn);
+                    }
+                    else
+                    {
+                        flight.Value.CreateSection(SectionType.Economy, seatRow, seatColumn);
+                    }
+                }
+            }
+        }
+
+
+        public bool GetAvailableFlight(string originAirport, string destinationAirport, DateTime departureDate, int numOfPass, SectionType section)
         {
             foreach (var flight in flights)
             {
                 if (flight.Value.OriginAirport == originAirport && flight.Value.DestinationAirport == destinationAirport &&
                     flight.Value.DepartureTime == departureDate)
                 {
-                    flight.Value.CheckAvailableSeat(section, numOfPass);
+                    if (flight.Value.CheckAvailableSeat(section, numOfPass) == true)
+                    {
+                        return true;
+                    }
                 }
             }
+            return false;
         }
 
-        public bool BookSeat(string flightNumber, int numberOfPass, string section)
+        public bool BookSeat(string flightNumber, int numberOfPass, SectionType section)
         {
             foreach (var flight in flights)
             {
                 if (flight.Value.FlightNumber == flightNumber && flight.Value.CheckAvailableSeat(section, numberOfPass) == true)
                 {
+                    flight.Value.BookFlightSeat(numberOfPass, section);
                     return true;
                 }
             }

@@ -6,10 +6,10 @@
         public int NumOfSeatColumn { get; private set; }
         public int NumOfBookedSeat { get; private set; }
         public int NumOfFreeSea { get; private set; }
-        public string TypeOfSection { get; private set; }
+        public SectionType TypeOfSection { get; private set; }
         private readonly bool[,] seats;
 
-        public Section(int numOfSeatRow, int numOfSeatColumn, string typeOfSection)
+        public Section(int numOfSeatRow, int numOfSeatColumn, SectionType typeOfSection)
         {
             NumOfSeatRow = numOfSeatRow;
             NumOfSeatColumn = numOfSeatColumn;

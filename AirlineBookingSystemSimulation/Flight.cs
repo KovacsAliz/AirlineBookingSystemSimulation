@@ -12,10 +12,10 @@ namespace AirlineBookingSystemSimulation
         public DateTime DepartureTime { get; private set; }
         public int NumOfSeats { get; private set; }
         public int NumOfSeatRows { get; private set; }
-        
+
         Random random = new Random();
 
-        private readonly Dictionary<string, Section> sections = new Dictionary<string, Section>();
+        private readonly Dictionary<SectionType, Section> sections = new Dictionary<SectionType, Section>();
 
         public Flight(string originAirport, string destinationAirport, string airline, DateTime departureTime, int numOfSeats, int numOfSeatRows, string flightNumber)
         {
@@ -30,19 +30,19 @@ namespace AirlineBookingSystemSimulation
 
         public void CheckOriginAndDestination()
         {
-            if(OriginAirport == DestinationAirport)
+            if (OriginAirport == DestinationAirport)
             {
                 throw new ArgumentException();
             }
         }
 
-        public void CreateSection(string typeOfSection, int numOfSeat, int numOfRow)
+        public void CreateSection(SectionType typeOfSection, int numOfSeatColumn, int numOfRow)
         {
-            Section section = new Section(numOfRow, numOfSeat, typeOfSection);
+            Section section = new Section(numOfRow, numOfSeatColumn, typeOfSection);
             sections.Add(typeOfSection, section);
         }
 
-        public bool CheckAvailableSeat(string section, int numOfPass)
+        public bool CheckAvailableSeat(SectionType section, int numOfPass)
         {
             foreach (var sec in sections)
             {
@@ -55,6 +55,17 @@ namespace AirlineBookingSystemSimulation
                 }
             }
             return false;
+        }
+
+        public void BookFlightSeat(int numberOfPass, SectionType sectionType)
+        {
+            foreach (var section in sections)
+            {
+                if (section.Value.TypeOfSection == sectionType)
+                {
+                    section.Value.ChangeStateOfSeat(numberOfPass);
+                }
+            }
         }
 
         public override string ToString()
