@@ -70,7 +70,7 @@ namespace AirlineBookingSystemSimulation
 
         public override string ToString()
         {
-            return $"Flight number: {FlightNumber}, Origin Airport: {OriginAirport}, Destination Airport: {DestinationAirport}" +
+            return $"Flight number: {FlightNumber}, Origin Airport: {OriginAirport}, Destination Airport: {DestinationAirport}," +
                    $" Airline: {Airline}, Departure date: {DepartureTime}";
         }
     }
