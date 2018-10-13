@@ -19,26 +19,6 @@
             seats = new bool[numOfSeatColumn, numOfSeatRow];
         }
 
-        //public bool CheckStateOfSeat(int numberOfPass)
-        //{
-        //    int numOfFreeSeat = 0;
-        //    for (int i = 0; i < seats.GetLength(0); i++)
-        //    {
-        //        for(int j = 0; j < seats.GetLength(1); j++)
-        //            {
-        //                if (seats[i, j] == false)
-        //                {
-        //                    numOfFreeSeat++;
-        //                }
-        //            }
-        //    }
-        //    if (numOfFreeSeat >= numberOfPass)
-        //    {
-        //        return true;
-        //    }
-        //    return false;
-        //}
-
         public void ChangeStateOfSeat(int numberOfPass)
         {
             int numOfChangedSeat = 0;
